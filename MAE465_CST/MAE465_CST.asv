@@ -1,0 +1,42 @@
+%MAE CST Matrix Calculator
+%input values
+nodei = input('cord of nodei\n');
+nodej = input('cord of nodej\n');
+nodem = input('cord of nodem\n');
+E = input('E in Pa\n');
+v = input('v\n');
+t = input('thickness\n');
+%Calculate B&G
+
+%bi = yi-ym;
+bi = nodei(2)-nodem(2);
+%bj = ym-yi;
+bj = nodem(2)-nodei(2);
+%bm = yi-yj;
+bm = nodei(2) - nodej(2);
+%gi = xm - xj;
+gi = nodem(1)-nodej(1);
+%gj = xi - xm;
+gj = nodei(1) - nodem(1);
+%gm = xj - xi;
+gm = nodej(1) - nodei(1);
+
+%Calculate Area
+a = 0.5*bj*gm;
+
+%Calculate B matrix
+
+B = (1/(2*a))*[bi 0 bj 0 bm 0;
+               0 gi 0 gj 0 gm;
+               gi bi gj bj gm bm;];
+        
+%Calculate C matrix
+
+C  = (E/1-v^2)*[1 v 0;
+                v 1 0;
+                0 0 (1-v)/2;];
+            
+%Calculate K matrix
+
+K = t*a*transpose(B)*C*B;
+
